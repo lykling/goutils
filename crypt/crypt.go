@@ -31,7 +31,7 @@ func transform(keymap, src []byte, flag, dir int) (dst []byte) {
         return
     }
     rank := DEFAULT_MAP_RANK
-    scale := DEFAULT_MAP_RANK
+    scale := DEFAULT_MAP_SCALE
     posl_old := bytes.IndexByte(keymap, src[0])
     posr_old := bytes.IndexByte(keymap, src[1])
     posl_new, posr_new := 0, 0
@@ -64,7 +64,7 @@ func Encrypt(text, key string, dir int) (cipher string){
     crypt_map := build_map(key)
     b64 := strings.Trim(base64.StdEncoding.EncodeToString([]byte(text)), "=")
     cipher = ""
-    for i := 0; i < len(b64); i += 2 {
+    for i := 0; i < len(b64) - 1; i += 2 {
         cipher += string(transform(crypt_map, []byte(b64[i:i+2]), CRYPT_ENCRYPT, dir))
     }
     if len(b64) % 2 == 1 {
@@ -76,7 +76,7 @@ func Encrypt(text, key string, dir int) (cipher string){
 func Decrypt(cipher, key string, dir int) (text string){
     crypt_map := build_map(key)
     b64 := ""
-    for i := 0; i < len(cipher); i += 2 {
+    for i := 0; i < len(cipher) - 1; i += 2 {
         b64 += string(transform(crypt_map, []byte(cipher[i:i+2]), CRYPT_DECRYPT, dir))
     }
     if len(cipher) % 2 == 1 {
