@@ -41,8 +41,8 @@ func transform(keymap, src []byte, flag, dir int) (dst []byte) {
         posl_new = scale - posl_old - 1
         posr_new = scale - posr_old - 1
     } else if deltax == 0 {
-        posl_new = (posl_old + rank * flag) % scale
-        posr_new = (posr_old + rank * flag) % scale
+        posl_new = (posl_old + rank * flag + scale) % scale
+        posr_new = (posr_old + rank * flag + scale) % scale
     } else if deltay == 0 {
         posl_new = posl_old / rank * rank + (posl_old + flag) % rank
         posr_new = posr_old / rank * rank + (posr_old + flag) % rank
